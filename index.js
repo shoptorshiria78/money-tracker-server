@@ -59,6 +59,34 @@ async function run() {
           console.log(error)
         }
       })
+    //   get income
+
+    app.get('/getIncome/:email', async(req, res)=>{
+        try{
+            const email = req.params.email;
+            const query = { email: email}
+            const result = await incomeCollections.find(query).toArray();
+            res.send(result);
+
+        }
+        catch(error){
+            console.log(error)
+        }
+    })
+    //  get expense
+
+    app.get('/getExpense/:email', async(req, res)=>{
+        try{
+            const email = req.params.email;
+            const query = { email: email}
+            const result = await expenseCollections.find(query).toArray();
+            res.send(result);
+
+        }
+        catch(error){
+            console.log(error)
+        }
+    })
 
 
     await client.db("admin").command({ ping: 1 });
