@@ -87,6 +87,33 @@ async function run() {
         console.log(error)
       }
     })
+    // get single expense
+    app.get('/getSingleExpenseId/:id', async (req, res) => {
+      try {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) }
+        const result = await expenseCollections.findOne(query);
+        res.send(result);
+
+      }
+      catch (error) {
+        console.log(error)
+      }
+    })
+
+    // get single income
+    app.get('/getSingleIncomeId/:id', async (req, res) => {
+      try {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) }
+        const result = await incomeCollections.findOne(query);
+        res.send(result);
+
+      }
+      catch (error) {
+        console.log(error)
+      }
+    })
 
     // delete expense
 
@@ -99,6 +126,68 @@ async function run() {
 
       }
       catch (error) {
+        console.log(error)
+      }
+    })
+
+    // delete Income
+
+    app.delete('/deleteIncome/:id', async (req, res) => {
+      try {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) }
+        const result = await incomeCollections.deleteOne(query);
+        res.send(result)
+
+      }
+      catch (error) {
+        console.log(error)
+      }
+    })
+
+    // update income
+    app.put('/updateIncome/:id', async (req, res) => {
+      try {
+        const updateIncome = req.body;
+        const id = req.params.id;
+        const filter = { _id: new ObjectId(id) };
+        const updateDoc = {
+          $set: {
+            income: updateIncome.income,
+            date: updateIncome.date
+
+          }
+        }
+
+        const result = await incomeCollections.updateOne(filter, updateDoc)
+        res.send(result);
+
+
+      } catch (error) {
+        console.log(error)
+      }
+    })
+
+    // update expense
+    app.put('/updateExpense/:id', async (req, res) => {
+      try {
+        const updateExpense = req.body;
+        const id = req.params.id;
+        const filter = { _id: new ObjectId(id) };
+        const updateDoc = {
+          $set: {
+            expense: updateExpense.expense,
+            date: updateExpense.date,
+            category: updateExpense.category,
+
+          }
+        }
+
+        const result = await expenseCollections.updateOne(filter, updateDoc)
+        res.send(result);
+
+
+      } catch (error) {
         console.log(error)
       }
     })
